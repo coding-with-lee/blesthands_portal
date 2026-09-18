@@ -54,15 +54,16 @@ def login():
         conn = get_db()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
-        
+
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['role'] = user['role']
             return redirect(url_for('dashboard'))
-        flash('Invalid username or password!')
-    return render_template('login.html')
 
+        flash('Invalid username or password!')
+
+    return render_template('login.html')
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
